@@ -1,4 +1,4 @@
-package com.azship.azship;
+package com.azship.azship.controllers.freight;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/freight")
-public class FreightApiController {
+public class FreightController {
 
     @PostMapping(value = "")
     @Operation(summary = "Save new freight")
