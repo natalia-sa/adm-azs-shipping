@@ -1,4 +1,4 @@
-package com.azship.azship.models;
+package com.azship.azship.models.customer;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;

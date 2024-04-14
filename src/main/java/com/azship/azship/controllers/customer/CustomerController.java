@@ -1,17 +1,22 @@
 package com.azship.azship.controllers.customer;
 
-import com.azship.azship.dtos.CustomerNameCnpjDto;
-import com.azship.azship.models.Customer;
+import com.azship.azship.dtos.customer.CustomerNameCnpjDto;
+import com.azship.azship.models.customer.Customer;
 import com.azship.azship.services.customer.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -24,37 +29,37 @@ public class CustomerController {
     @PostMapping(value = "")
     @Operation(summary = "Save new customer")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Customer was saved successfully")})
-    public ResponseEntity save(
+            @ApiResponse(responseCode = "201", description = "The customer saved")})
+    public ResponseEntity<Customer> save(
             @RequestBody
             @Valid
             CustomerNameCnpjDto customerDto
     ) {
-        customerService.save(customerDto);
-        return new ResponseEntity<>("Done", HttpStatus.CREATED);
-    }
-
-    @PutMapping(value = "")
-    @Operation(summary = "Update customer")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Customer was updated successfully")})
-    public ResponseEntity update() {
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+        Customer customer = customerService.save(customerDto);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "")
     @Operation(summary = "Delete customer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer was deleted successfully")})
-    public ResponseEntity delete() {
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+    public ResponseEntity<Void> delete(
+            @RequestParam
+            @NotBlank
+            @Schema(example = "1")
+            Long id
+    ) {
+        customerService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "")
     @Operation(summary = "List all customers")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "The customers found")})
-    public ResponseEntity findAll() {
+            @ApiResponse(responseCode = "200", description = "The customers found",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Customer.class))) })})
+    public ResponseEntity<Collection<Customer>> findAll() {
         List<Customer> customers = customerService.findAll();
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }

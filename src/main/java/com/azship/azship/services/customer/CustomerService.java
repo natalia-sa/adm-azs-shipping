@@ -1,17 +1,11 @@
 package com.azship.azship.services.customer;
 
-import com.azship.azship.dtos.CustomerNameCnpjDto;
-import com.azship.azship.models.Customer;
+import com.azship.azship.dtos.customer.CustomerNameCnpjDto;
+import com.azship.azship.models.customer.Customer;
+import com.azship.azship.services.basic.BasicService;
 
-import java.util.List;
+public interface CustomerService extends BasicService<Customer, Long> {
 
-public interface CustomerService {
+    Customer save(CustomerNameCnpjDto customerDto);
 
-    void save(CustomerNameCnpjDto customerDto);
-
-    void update();
-
-    void delete();
-
-    List<Customer> findAll();
 }
