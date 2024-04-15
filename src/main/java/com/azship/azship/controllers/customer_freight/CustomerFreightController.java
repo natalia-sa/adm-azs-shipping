@@ -3,6 +3,7 @@ package com.azship.azship.controllers.customer_freight;
 import com.azship.azship.dtos.customer_freight.CustomerFreightCustomerIdFreightPropertiesDto;
 import com.azship.azship.models.customer_freight.CustomerFreight;
 import com.azship.azship.services.customer_freight.CustomerFreightService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,7 +31,7 @@ public class CustomerFreightController {
             @RequestBody
             @Valid
             CustomerFreightCustomerIdFreightPropertiesDto customerFreightDto
-    ) {
+    ) throws JsonProcessingException {
         CustomerFreight customerFreight = customerFreightService.save(customerFreightDto);
         return new ResponseEntity<>(customerFreight, HttpStatus.CREATED);
     }

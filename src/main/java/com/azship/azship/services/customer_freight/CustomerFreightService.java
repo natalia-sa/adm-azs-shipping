@@ -4,8 +4,9 @@ import com.azship.azship.dtos.customer_freight.CustomerFreightCustomerIdFreightP
 import com.azship.azship.models.customer.Customer;
 import com.azship.azship.models.customer_freight.CustomerFreight;
 import com.azship.azship.services.basic.BasicService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface CustomerFreightService extends BasicService<CustomerFreight, Long> {
 
-    CustomerFreight save(CustomerFreightCustomerIdFreightPropertiesDto customerFreightDto);
+    CustomerFreight save(CustomerFreightCustomerIdFreightPropertiesDto customerFreightDto) throws JsonProcessingException;
 }

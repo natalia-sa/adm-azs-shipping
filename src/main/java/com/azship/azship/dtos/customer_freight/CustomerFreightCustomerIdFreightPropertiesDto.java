@@ -1,4 +1,6 @@
 package com.azship.azship.dtos.customer_freight;
 
-public record CustomerFreightCustomerIdFreightPropertiesDto(Long customerId, String freightProperties) {
+import com.fasterxml.jackson.databind.JsonNode;
+
+public record CustomerFreightCustomerIdFreightPropertiesDto(Long customerId, JsonNode freightProperties) {
 }
