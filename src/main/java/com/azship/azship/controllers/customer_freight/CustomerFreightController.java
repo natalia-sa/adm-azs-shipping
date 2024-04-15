@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/freight")
+@RequestMapping("/customer-freight")
 public class CustomerFreightController {
 
     @Autowired
