@@ -47,7 +47,7 @@ class FreightServiceImpl implements FreightService {
         JsonNode inputProperties = freightDto.properties();
 
         if(!doesJsonNodeContainsAllExpectedKeys(customerFreightProperties, inputProperties)) {
-            throw new IllegalArgumentException("The properties input does not contain all required properties");
+            throw new IllegalArgumentException("The input does not contain all required properties");
         }
 
         String propertiesAsString = objectMapper.writeValueAsString(inputProperties);
