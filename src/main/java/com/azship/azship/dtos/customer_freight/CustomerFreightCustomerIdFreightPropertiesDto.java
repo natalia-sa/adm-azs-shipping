@@ -11,6 +11,5 @@ public record CustomerFreightCustomerIdFreightPropertiesDto(
         Long customerId,
 
         @Schema(example = "{\"weight\": \"INTEGER\", \"quantity\": \"INTEGER\"}", description = "The properties that must be filled out for the customer's freights. Pattern: \"propertyName\": \"propertyType\"")
-        @NotBlank
         JsonNode freightProperties) {
 }

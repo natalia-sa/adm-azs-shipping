@@ -11,6 +11,5 @@ public record FreightDto(
         Long customerFreight,
 
         @Schema(example = "{\"weight\": 1, \"quantity\": 2}", description = "The values to the customer freight properties")
-        @NotBlank
         JsonNode properties) {
 }

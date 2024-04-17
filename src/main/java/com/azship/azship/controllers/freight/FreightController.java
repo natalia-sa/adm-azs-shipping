@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,7 +51,7 @@ public class FreightController {
             @ApiResponse(responseCode = "200", description = "Freight was deleted successfully")})
     public ResponseEntity<Void> delete(
             @RequestParam
-            @NotBlank
+            @NotNull
             @Schema(example = "1")
             Long id
     ) {

@@ -15,6 +15,5 @@ public record FreightIdCustomerFreightIdPropertiesDto(
         Long customerFreightId,
 
         @Schema(example = "1", description = "The new properties")
-        @NotBlank
         JsonNode properties) {
 }
