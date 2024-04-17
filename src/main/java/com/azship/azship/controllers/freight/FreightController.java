@@ -73,7 +73,7 @@ public class FreightController {
     }
 
     @GetMapping(value = "/by/property/pagination")
-    @Operation(summary = "List freights paginated filtering by the specified property")
+    @Operation(summary = "List freights that contains the specified property. The response is paginated")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Freights found",
                     content = {@Content(mediaType = "application/json",
@@ -82,10 +82,6 @@ public class FreightController {
             @RequestParam(required = false)
             @Schema(example = "weight")
             String propertyName,
-
-            @RequestParam(required = false)
-            @Schema(example = "3")
-            Object propertyValue,
 
             @RequestParam
             @Schema(example = "0")
@@ -98,7 +94,7 @@ public class FreightController {
             Integer size
     ) {
         PaginationDto paginationDto = new PaginationDto(page, size);
-        FreightPropertyNamePropertyValuePaginationDto dto = new FreightPropertyNamePropertyValuePaginationDto(propertyName, propertyValue, paginationDto);
+        FreightPropertyNamePropertyValuePaginationDto dto = new FreightPropertyNamePropertyValuePaginationDto(propertyName, paginationDto);
         Page<FreightIdPropertiesDto> response = freightService.findByPropertyAndPagination(dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
