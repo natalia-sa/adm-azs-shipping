@@ -12,6 +12,8 @@
 
 - **PostgreSQL**
 
+- **Flyway**
+
 - **Docker**
 
 - **Swagger**
