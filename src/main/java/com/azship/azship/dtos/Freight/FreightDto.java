@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 public record FreightDto(
         @Schema(example = "1", description = "The customer freight id")
         @NotNull
-        Long customerFreight,
+        Long customerFreightId,
 
         @Schema(example = "{\"weight\": 1, \"quantity\": 2}", description = "The values to the customer freight properties")
         JsonNode properties) {

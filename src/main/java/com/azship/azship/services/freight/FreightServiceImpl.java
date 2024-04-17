@@ -33,7 +33,7 @@ public class FreightServiceImpl implements FreightService {
 
     @Override
     public Long save(FreightDto freightDto) throws JsonProcessingException {
-        CustomerFreight customerFreight = customerFreightService.findById(freightDto.customerFreight()).orElseThrow();
+        CustomerFreight customerFreight = customerFreightService.findById(freightDto.customerFreightId()).orElseThrow();
         String propertiesAsString = new ObjectMapper().writeValueAsString(freightDto.properties());
         Freight freight = new Freight(customerFreight, propertiesAsString);
         return freightRepository.save(freight).getId();
