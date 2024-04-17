@@ -1,13 +1,18 @@
 package com.azship.azship.controllers.customer_freight;
 
+import com.azship.azship.dtos.basic.IdDto;
 import com.azship.azship.dtos.customer_freight.CustomerFreightCustomerIdFreightPropertiesDto;
-import com.azship.azship.models.customer_freight.CustomerFreight;
+import com.azship.azship.dtos.customer_freight.CustomerIdFreightPropertiesDto;
 import com.azship.azship.services.customer_freight.CustomerFreightService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,38 +31,41 @@ public class CustomerFreightController {
     @PostMapping(value = "")
     @Operation(summary = "Save new Customer freight, entity responsible for storing the freight information of each client")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Customer freight was saved successfully")})
-    public ResponseEntity<CustomerFreight> save(
+            @ApiResponse(responseCode = "201", description = "The id of the saved customer freight",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IdDto.class))})})
+    public ResponseEntity<IdDto> save(
             @RequestBody
             @Valid
             CustomerFreightCustomerIdFreightPropertiesDto customerFreightDto
     ) throws JsonProcessingException {
-        CustomerFreight customerFreight = customerFreightService.save(customerFreightDto);
-        return new ResponseEntity<>(customerFreight, HttpStatus.CREATED);
-    }
-
-    @PutMapping(value = "")
-    @Operation(summary = "Update Customer freight")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Customer freight was updated successfully")})
-    public ResponseEntity update() {
-        return new ResponseEntity<>("Done", HttpStatus.OK);
+        Long customerFreightId = customerFreightService.save(customerFreightDto).getId();
+        IdDto idDto = new IdDto(customerFreightId);
+        return new ResponseEntity<>(idDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "")
     @Operation(summary = "Delete Customer freight")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Customer freight was deleted successfully")})
-    public ResponseEntity<Void> delete() {
+    public ResponseEntity<Void> delete(
+            @RequestParam
+            @NotBlank
+            @Schema(example = "1")
+            Long id
+    ) {
+        customerFreightService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "")
-    @Operation(summary = "List Customer freights")
+    @Operation(summary = "List all customer freights")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "The customer freights found")})
-    public ResponseEntity<Collection<CustomerFreight>> findByPagination() {
-        List<CustomerFreight> customerFreights = customerFreightService.findAll();
+            @ApiResponse(responseCode = "200", description = "The customer freights found",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CustomerIdFreightPropertiesDto.class))) })})
+    public ResponseEntity<Collection<CustomerIdFreightPropertiesDto>> findByPagination() {
+        List<CustomerIdFreightPropertiesDto> customerFreights = customerFreightService.findCustomerIdAndFreightProperties();
         return new ResponseEntity<>(customerFreights, HttpStatus.OK);
     }
 

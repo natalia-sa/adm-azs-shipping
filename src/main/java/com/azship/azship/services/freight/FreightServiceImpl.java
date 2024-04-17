@@ -12,10 +12,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class FreightServiceImpl implements FreightService {
@@ -50,7 +50,15 @@ public class FreightServiceImpl implements FreightService {
     }
 
     @Override
-    public List<FreightIdPropertiesDto> findByPropertyAndPagination(FreightPropertyNamePropertyValuePaginationDto dto) {
-        return List.of();
+    public Page<FreightIdPropertiesDto> findByPropertyAndPagination(FreightPropertyNamePropertyValuePaginationDto dto) {
+        String propertyName = dto.propertyName();
+        Object propertyValue = dto.propertyValue();
+        int page = dto.pagination().page();
+        int size = dto.pagination().size();
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Freight> resultPage = freightRepository.findByPropertyAndPagination(propertyName, pageRequest);
+
+        return resultPage.map(freight -> new FreightIdPropertiesDto(freight.getId(), freight.getProperties()));
     }
 }

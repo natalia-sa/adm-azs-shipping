@@ -1,0 +1,2 @@
+ALTER TABLE customer_freight
+DROP CONSTRAINT customer_freight_customer_id_ukey;

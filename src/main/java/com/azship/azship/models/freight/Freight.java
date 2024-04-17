@@ -38,7 +38,7 @@ public class Freight {
     )
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_FREIGHT_ID")
     private CustomerFreight customerFreight;
 

@@ -1,6 +1,7 @@
 package com.azship.azship.services.customer_freight;
 
 import com.azship.azship.dtos.customer_freight.CustomerFreightCustomerIdFreightPropertiesDto;
+import com.azship.azship.dtos.customer_freight.CustomerIdFreightPropertiesDto;
 import com.azship.azship.models.customer.Customer;
 import com.azship.azship.models.customer_freight.CustomerFreight;
 import com.azship.azship.repositories.customer_freight.CustomerFreightRepository;
@@ -10,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 class CustomerFreightServiceImpl implements CustomerFreightService {
@@ -31,5 +34,13 @@ class CustomerFreightServiceImpl implements CustomerFreightService {
         String propertiesAsString = new ObjectMapper().writeValueAsString(customerFreightDto.freightProperties());
         CustomerFreight customerFreight = new CustomerFreight(customer, propertiesAsString);
         return customerFreightRepository.save(customerFreight);
+    }
+
+    public List<CustomerIdFreightPropertiesDto> findCustomerIdAndFreightProperties() {
+        List<CustomerFreight> customerFreights = customerFreightRepository.findAll();
+        return customerFreights
+                .stream()
+                .map(customerFreight -> new CustomerIdFreightPropertiesDto(customerFreight.getId(), customerFreight.getFreightProperties()))
+                .toList();
     }
 }

@@ -1,5 +1,6 @@
 package com.azship.azship.controllers.customer;
 
+import com.azship.azship.dtos.basic.IdDto;
 import com.azship.azship.dtos.customer.CustomerNameCnpjDto;
 import com.azship.azship.models.customer.Customer;
 import com.azship.azship.services.customer.CustomerService;
@@ -29,14 +30,15 @@ public class CustomerController {
     @PostMapping(value = "")
     @Operation(summary = "Save new customer")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "The customer saved")})
-    public ResponseEntity<Customer> save(
+            @ApiResponse(responseCode = "201", description = "The id of the saved customer")})
+    public ResponseEntity<IdDto> save(
             @RequestBody
             @Valid
             CustomerNameCnpjDto customerDto
     ) {
-        Customer customer = customerService.save(customerDto);
-        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        Long customerId = customerService.save(customerDto).getId();
+        IdDto idDto = new IdDto(customerId);
+        return new ResponseEntity<>(idDto, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "")
