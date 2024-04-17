@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class FreightServiceImpl implements FreightService {
+class FreightServiceImpl implements FreightService {
 
     @Autowired
     private FreightRepository freightRepository;
